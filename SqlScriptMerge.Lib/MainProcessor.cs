@@ -1,4 +1,5 @@
-﻿using SqlScriptMerge.Lib.Options;
+﻿using SqlScriptMerge.Lib.Helpers;
+using SqlScriptMerge.Lib.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,11 @@ public class MainProcessor
     public void StartMergeProcess()
     {
         var files = _options.CustomSp ? CustomSpOneOptions() : LoadFromDir();
+
+        var queries = FileHelper.ExtractQueriesFromFiles(files);
+        var output = Merger.MergeQueriesByTable(queries);
+
+        File.WriteAllText("SortedFiles.sql", output);
     }
 
 

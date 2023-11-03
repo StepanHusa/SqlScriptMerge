@@ -10,7 +10,7 @@ namespace SqlScriptMerge.Lib.Helpers;
 internal static class Merger
 {
 
-    static void MergeQueriesByTable(IEnumerable<TaggedQuery> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
+    public static string MergeQueriesByTable(IEnumerable<TaggedQuery> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
     {
         CategoryHelper.CategorizeQueries(queries);
         var progressSB = new StringBuilder();
@@ -120,11 +120,11 @@ internal static class Merger
             }
         }
 
-        if (!onlySort)
+        if (!onlySort) { }
             //File.WriteAllText(Settings.Options.OutputFileName ?? "Merged.sql", realSB.ToString()); //TODO write it somewhere
 
         //if (!Settings.Options.NoSortOutput && !Settings.Options.CustomSpOne)
-            File.WriteAllText("SortedFiles.sql", progressSB.ToString());
+          return   progressSB.ToString();
     }
 
     static IEnumerable<TaggedQuery>? MergeQueriesOneTable(IEnumerable<TaggedQuery> queries)

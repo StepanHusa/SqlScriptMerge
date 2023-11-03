@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SqlScriptMerge.Lib.Helpers;
 internal static class FileHelper
 {
-    static List<TaggedQuery> ExtractQueriesFromFiles(IEnumerable<string> scriptPaths)
+    public static List<TaggedQuery> ExtractQueriesFromFiles(IEnumerable<string> scriptPaths)
     {
         var queries = new List<TaggedQuery>();
         int counter = 1;

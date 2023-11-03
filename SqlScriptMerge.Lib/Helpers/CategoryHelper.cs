@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SqlScriptMerge.Lib.Helpers;
-internal static class CategoryHelper
+public static class CategoryHelper
 {
     public static void CategorizeQueries(IEnumerable<TaggedQuery> queries)
     {

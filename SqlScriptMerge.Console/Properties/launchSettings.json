@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "SqlScriptMerge": {
+      "commandName": "Project",
+      "commandLineArgs": "--CustomSp",
+      "workingDirectory": "C:\\Sources\\SqlMergeTool\\SqlMergeTool\\SqlMergeTool\\workingdir"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 ﻿namespace SqlScriptMerge.Lib.Models.Enums;
 
-internal enum QueryType
+public enum QueryType
 {
     NotRecognized,
     Comment,

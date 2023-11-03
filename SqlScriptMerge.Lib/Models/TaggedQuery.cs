@@ -2,7 +2,7 @@
 
 namespace SqlMergeTool
 {
-    internal class TaggedQuery
+    public class TaggedQuery
     {
         public required string Query { get; set; }
         public string FromFile { get; set; }

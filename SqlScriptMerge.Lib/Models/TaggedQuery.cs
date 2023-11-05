@@ -1,15 +1,11 @@
 ﻿using SqlScriptMerge.Lib.Models.Enums;
 
-namespace SqlMergeTool
+namespace SqlScriptMerge.Lib.Models
 {
-    public class TaggedQuery
+    internal class TaggedQuery : TaggedQueryBasic
     {
-        public required string Query { get; set; }
-        public string FromFile { get; set; }
-        public required int Order { get; set; }
         public QueryType Type { get; set; }
 
-        
-        public string Table { get; set; }
+        public required string Table { get; set; }
     }
 }

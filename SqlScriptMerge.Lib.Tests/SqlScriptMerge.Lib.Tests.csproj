@@ -27,11 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="TestFiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="TestFiles\01.test">
+    <None Update="TestFiles\AlterTable\01.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\CreateTable\01.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestFiles\CreateTable\02.test">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

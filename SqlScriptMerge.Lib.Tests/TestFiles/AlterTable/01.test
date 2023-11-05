@@ -1,0 +1,2 @@
+alter table Opravneni
+change Nazev DlouhyNazev int unsigned not null;

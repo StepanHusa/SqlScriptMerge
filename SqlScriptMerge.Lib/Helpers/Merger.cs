@@ -1,4 +1,4 @@
-﻿using SqlMergeTool;
+﻿using SqlScriptMerge.Lib.Models;
 using SqlScriptMerge.Lib.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,16 +10,16 @@ namespace SqlScriptMerge.Lib.Helpers;
 internal static class Merger
 {
 
-    public static string MergeQueriesByTable(IEnumerable<TaggedQuery> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
+    public static string MergeQueriesByTable(IEnumerable<TaggedQueryBasic> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
     {
-        CategoryHelper.CategorizeQueries(queries);
+        var categorized = CategoryHelper.CategorizeQueries(queries);
         var progressSB = new StringBuilder();
         var realSB = new StringBuilder();
 
 
         // filter out uncategorized Queries
-        var uncategorized = queries.Where(q => q.Type == QueryType.NotRecognized);
-        queries = queries.Where(q => q.Type != QueryType.NotRecognized);
+        var uncategorized = categorized.Where(q => q.Type == QueryType.NotRecognized);
+        categorized = categorized.Where(q => q.Type != QueryType.NotRecognized);
 
         if (uncategorized.Any())
         {
@@ -38,8 +38,8 @@ internal static class Merger
         }
 
         // filter out comment Queries
-        var floatingComments = queries.Where(q => q.Type == QueryType.Comment);
-        queries = queries.Where(q => q.Type != QueryType.Comment);
+        var floatingComments = categorized.Where(q => q.Type == QueryType.Comment);
+        categorized = categorized.Where(q => q.Type != QueryType.Comment);
 
         if (floatingComments.Any())
         {
@@ -56,8 +56,8 @@ internal static class Merger
         }
 
         // filter out use queries.
-        var useQueries = queries.Where(q => q.Type == QueryType.Use).DistinctBy(q => q.Table);
-        queries = queries.Where(q => q.Type != QueryType.Use);
+        var useQueries = categorized.Where(q => q.Type == QueryType.Use).DistinctBy(q => q.Table);
+        categorized = categorized.Where(q => q.Type != QueryType.Use);
 
         if (useQueries.Count() > 1)
         {
@@ -71,8 +71,8 @@ internal static class Merger
         }
 
         // filter out view queries.
-        var viewQueries = queries.Where(q => q.Type == QueryType.DropView || q.Type == QueryType.CreateView);
-        queries = queries.Where(q => !(q.Type == QueryType.DropView || q.Type == QueryType.CreateView));
+        var viewQueries = categorized.Where(q => q.Type == QueryType.DropView || q.Type == QueryType.CreateView);
+        categorized = categorized.Where(q => !(q.Type == QueryType.DropView || q.Type == QueryType.CreateView));
 
         if (viewQueries.Any())
         {
@@ -88,7 +88,7 @@ internal static class Merger
             realSB.AppendLine("--- END Veiws ---");
         }
 
-        var queriesByTable = queries.GroupBy(q => q.Table);
+        var queriesByTable = categorized.GroupBy(q => q.Table);
         foreach (var queryGroup in queriesByTable)
         {
             progressSB.AppendLine();

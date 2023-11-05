@@ -1,4 +1,4 @@
-﻿using SqlMergeTool;
+﻿using SqlScriptMerge.Lib.Models;
 using SqlScriptMerge.Lib.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -6,21 +6,24 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static SqlScriptMerge.Lib.MapperInstance;
 
 namespace SqlScriptMerge.Lib.Helpers;
-public static class CategoryHelper
+internal static class CategoryHelper
 {
-    public static void CategorizeQueries(IEnumerable<TaggedQuery> queries)
+    public static IEnumerable<TaggedQuery> CategorizeQueries(IEnumerable<TaggedQueryBasic> queries)
     {
-        foreach (var q in queries)
-        {
-            DetermineQueryTypeAndTable(q);
-        }
+        var result = queries.Select(q => {
+            var tq = Mapper.Map<TaggedQuery>(q);
+            (tq.Table, tq.Type) = DetermineQueryTypeAndTable(q.Query);
+            return tq;
+        });
+
+        return result;
     }
 
-    static void DetermineQueryTypeAndTable(TaggedQuery queryTagged)
+    public static (string, QueryType) DetermineQueryTypeAndTable(string query)
     {
-        var query = queryTagged.Query;
         QueryType qt;
         string? tableName = null;
 
@@ -99,9 +102,7 @@ public static class CategoryHelper
             tableName = string.Empty;
         }
 
-
-        queryTagged.Type = qt;
-        queryTagged.Table = tableName;
+        return (tableName, qt);
     }
 
     public static bool ContainsSubstring(string query, string substr)

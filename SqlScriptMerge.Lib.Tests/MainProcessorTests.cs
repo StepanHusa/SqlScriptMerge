@@ -24,7 +24,7 @@ public class MainProcessorTests
         var opt = new SqlScriptMerge.Lib.Tests.Options.Options
         {
             SortMode = true,
-            OutputFileName = OutputSqlFilename,
+            SortOutputFileName = OutputSqlFilename,
             InDirectory = ".\\TestFiles\\SortTest01\\"
         };
 

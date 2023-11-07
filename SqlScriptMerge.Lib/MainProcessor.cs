@@ -2,6 +2,7 @@
 using SqlScriptMerge.Lib.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,29 @@ public class MainProcessor
         _logger = logger;
     }
 
+    public string RunWithPreparedFilesSort(IEnumerable<string> files)
+    {
+        var queries = FileHelper.ExtractQueriesFromFiles(files);
+
+        return Merger.SortQueriesByTableIntoOneFile(queries, _options.NoMergeComments, _options.NoAuthorComments);
+    }
+
+    public string RunWithPreparedFilesMerge(IEnumerable<string> files)
+    {
+        throw new NotImplementedException();
+    }
+
     public void RunCurrentOptions()
     {
-        if(_options.OutputFileName == null)
+        if (_options.InDirectory == null)
         {
-            _options.OutputFileName = "SqlScriptMergeResult.sql";
+            _options.InDirectory = ".\\";
+        }
+        _options.InDirectory = Path.GetFullPath(_options.InDirectory);
+
+        if (_options.SortOutputFileName == null)
+        {
+            _options.SortOutputFileName = "SqlScriptMergeResult.sql";
         }
 
         var files = _options.CustomSpLoad ? CustomSpOneOptions() : LoadFromDir();
@@ -33,12 +52,12 @@ public class MainProcessor
         if (_options.SortMode)
         {
             var output = Merger.SortQueriesByTableIntoOneFile(queries);
-            File.WriteAllText(_options.OutputFileName, output);
+            File.WriteAllText(_options.SortOutputFileName, output);
         }
 
         if (_options.MergeMode) {
             var output = "This option is not finished yet.";
-            File.WriteAllText(_options.OutputFileName, output);
+            File.WriteAllText(_options.SortOutputFileName, output);
 
         }
 
@@ -54,7 +73,7 @@ public class MainProcessor
     {
         var ignore = ".00 00 schema,users.sql";
 
-        var dir = Environment.CurrentDirectory;
+        var dir = _options.InDirectory;
         var files = Directory.GetFiles(dir).Where(f
             => f.EndsWith(".sql")
             && Path.GetFileName(f).Split('.')[0].All(char.IsDigit)
@@ -63,18 +82,18 @@ public class MainProcessor
 
         int lastVersion = files.Max(f => Convert.ToInt32(Path.GetFileName(f).Split('.')[0]));
 
-        _options.OutputFileName = "automerge_" + (lastVersion + 1) + ".00 01 sturcture.sql";
+        if(_options.SortOutputFileName == null)
+        {
+        _options.SortOutputFileName = "automerge_" + (lastVersion + 1) + ".00 01 sturcture.sql";
+
+        }
 
         return files.Where(f => Convert.ToInt32(Path.GetFileName(f).Split('.')[0]) == lastVersion).OrderBy(f => Path.GetFileName(f));
     }
 
     private IEnumerable<string> LoadFromDir()
     {
-        if(_options.InDirectory == null)
-        {
-            _options.InDirectory = ".\\";
-        }
-        var dir = Path.GetFullPath(_options.InDirectory);
+        var dir = _options.InDirectory;
 
         if (!Directory.Exists(dir)) { throw new Exception(); }
 

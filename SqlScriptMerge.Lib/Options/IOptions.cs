@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace SqlScriptMerge.Lib.Options;
 public interface IOptions
 {
-    string? OutputFileName { get; set; }
+    string? SortOutputFileName { get; set; }
+    string? MergeOutputFileName { get; set; }
     bool NoMergeComments { get; set; }
     bool NoAuthorComments { get; set; }
     bool CustomSpLoad { get; set; }

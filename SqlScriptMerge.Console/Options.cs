@@ -6,8 +6,11 @@ namespace SqlScriptMerge.ConsoleApp
     internal class Options : IOptions
     {
 
-        [Option('o', "OutputFileName", HelpText = "Output file name")]
-        public string? OutputFileName { get; set; }
+        [Option('o', "SortOutputFileName", HelpText = "Output file name for sort mode")]
+        public string? SortOutputFileName { get; set; }
+
+        [Option("MergeOutputFileName", HelpText = "Output file name for merge mode")]
+        public string? MergeOutputFileName { get; set; }
 
         [Option("InDirectory", HelpText = "Directory in which the input files are located. If no directory specified, program uses the working directory.")]
         public string? InDirectory { get; set; }

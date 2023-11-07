@@ -10,7 +10,7 @@ namespace SqlScriptMerge.Lib.Helpers;
 internal static class Merger
 {
 
-    public static string SortQueriesByTableIntoOneFile(IEnumerable<TaggedQueryBasic> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
+    public static string SortQueriesByTableIntoOneFile(IEnumerable<TaggedQueryBasic> queries, bool mergeComments=true, bool authorComments = true)
     {
         var categorized = CategoryHelper.CategorizeQueries(queries);
         var sb = new StringBuilder();

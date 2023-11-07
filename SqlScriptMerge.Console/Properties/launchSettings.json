@@ -1,9 +1,12 @@
 {
   "profiles": {
-    "SqlScriptMerge.ConsoleApp": {
+    "SqlScriptMerge.ConsoleApp SortMode": {
       "commandName": "Project",
-      "commandLineArgs": "--CustomSpLoad --FileExtension .sql",
-      "workingDirectory": "C:\\Sources\\SqlMergeTool\\SqlMergeTool\\SqlMergeTool\\workingdir"
+      "commandLineArgs": "--CustomSpLoad --FileExtension .sql --InDirectory C:\\Sources\\privatefiles -s -o C:\\Sources\\privatefiles\\Sorted.sql"
+    },
+    "SqlScriptMerge.ConsoleApp MergeMode": {
+      "commandName": "Project",
+      "commandLineArgs": "--CustomSpLoad --FileExtension .sql --InDirectory C:\\Sources\\privatefiles -m --MergeOutputFileName Merged.sql"
     }
   }
 }

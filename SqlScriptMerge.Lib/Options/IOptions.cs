@@ -8,7 +8,11 @@ namespace SqlScriptMerge.Lib.Options;
 public interface IOptions
 {
     string? OutputFileName { get; set; }
-    bool NoComments { get; set; }
-    bool CustomSp { get; set; }
-    string? AutoReadPrefix { get; set; }
+    bool NoMergeComments { get; set; }
+    bool NoAuthorComments { get; set; }
+    bool CustomSpLoad { get; set; }
+    bool SortMode { get; set; }
+    bool MergeMode { get; set; }
+    string? InDirectory { get; set; }
+    string? FileExtension { get; set; }
 }

@@ -1,0 +1,20 @@
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    publication_year INT
+);
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    birthdate DATE
+);
+
+ALTER TABLE books
+ADD column genre VARCHAR(50);
+
+ALTER TABLE books
+change publication_year publication_year INT unsigned;

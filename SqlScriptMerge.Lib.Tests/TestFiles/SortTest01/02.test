@@ -1,0 +1,10 @@
+DROP TABLE customers;
+
+
+INSERT INTO books (book_id, title, author, publication_year)
+VALUES (1, 'To Kill a Mockingbird', 'Harper Lee', 1960);
+
+
+UPDATE customers
+SET email = 'newemail@email.com'
+WHERE customer_id = 1;

@@ -19,14 +19,33 @@ public class MainProcessor
         _logger = logger;
     }
 
-    public void StartMergeProcess()
+    public void RunCurrentOptions()
     {
-        var files = _options.CustomSp ? CustomSpOneOptions() : LoadFromDir();
+        if(_options.OutputFileName == null)
+        {
+            _options.OutputFileName = "SqlScriptMergeResult.sql";
+        }
+
+        var files = _options.CustomSpLoad ? CustomSpOneOptions() : LoadFromDir();
 
         var queries = FileHelper.ExtractQueriesFromFiles(files);
-        var output = Merger.MergeQueriesByTable(queries);
 
-        File.WriteAllText("SortedFiles.sql", output);
+        if (_options.SortMode)
+        {
+            var output = Merger.SortQueriesByTableIntoOneFile(queries);
+            File.WriteAllText(_options.OutputFileName, output);
+        }
+
+        if (_options.MergeMode) {
+            var output = "This option is not finished yet.";
+            File.WriteAllText(_options.OutputFileName, output);
+
+        }
+
+        if(!_options.MergeMode && !_options.SortMode)
+        {
+            _logger.Log("If you want to create any output select one of (or both) the options -s (--SortMode), -m (--MergeMode).", new ArgumentException());
+        }
     }
 
 
@@ -51,12 +70,16 @@ public class MainProcessor
 
     private IEnumerable<string> LoadFromDir()
     {
-        var prefix = Path.GetFileName(_options.AutoReadPrefix);
-        var dir = Path.Join(Environment.CurrentDirectory, Path.GetDirectoryName(_options.AutoReadPrefix));
+        if(_options.InDirectory == null)
+        {
+            _options.InDirectory = ".\\";
+        }
+        var dir = Path.GetFullPath(_options.InDirectory);
+
         if (!Directory.Exists(dir)) { throw new Exception(); }
 
         var files = Directory.GetFiles(dir);
 
-        return files.Where(f => f.EndsWith(".sql") && (prefix == null || Path.GetFileName(f).StartsWith(prefix)));
+        return files.Where(f => ( _options.FileExtension == null || string.Equals(Path.GetExtension(f), _options.FileExtension, StringComparison.OrdinalIgnoreCase)));
     }
 }

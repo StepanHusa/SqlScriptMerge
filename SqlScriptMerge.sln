@@ -5,11 +5,11 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScriptMerge.Lib", "SqlScriptMerge.Lib\SqlScriptMerge.Lib.csproj", "{E3F7227C-ADD3-4365-AA7C-B869F01C5D21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScriptMerge.Console", "SqlScriptMerge.Console\SqlScriptMerge.Console.csproj", "{F9FE736F-98D5-4A27-AE73-05658A0D638A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScriptMerge.ConsoleApp", "SqlScriptMerge.Console\SqlScriptMerge.ConsoleApp.csproj", "{F9FE736F-98D5-4A27-AE73-05658A0D638A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScriptMerge.GUI", "SqlScriptMerge.GUI\SqlScriptMerge.GUI.csproj", "{914812A0-F413-41F3-BF1F-71C2CD6D3AD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlScriptMerge.Lib.Tests", "SqlScriptMerge.Lib.Tests\SqlScriptMerge.Lib.Tests.csproj", "{D219BD75-40C8-40A7-A978-40FF9FC2FCB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlScriptMerge.Lib.Tests", "SqlScriptMerge.Lib.Tests\SqlScriptMerge.Lib.Tests.csproj", "{D219BD75-40C8-40A7-A978-40FF9FC2FCB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

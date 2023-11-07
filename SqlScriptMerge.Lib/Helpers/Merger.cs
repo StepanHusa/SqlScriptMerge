@@ -10,11 +10,10 @@ namespace SqlScriptMerge.Lib.Helpers;
 internal static class Merger
 {
 
-    public static string MergeQueriesByTable(IEnumerable<TaggedQueryBasic> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
+    public static string SortQueriesByTableIntoOneFile(IEnumerable<TaggedQueryBasic> queries, bool mergeComments=true, bool authorComments = true, bool onlySort = false)
     {
         var categorized = CategoryHelper.CategorizeQueries(queries);
-        var progressSB = new StringBuilder();
-        var realSB = new StringBuilder();
+        var sb = new StringBuilder();
 
 
         // filter out uncategorized Queries
@@ -23,18 +22,14 @@ internal static class Merger
 
         if (uncategorized.Any())
         {
-            progressSB.AppendLine("--- BEGIN Uncategorized queries ---");
-            realSB.AppendLine("--- BEGIN Uncategorized queries ---");
+            sb.AppendLine("--- BEGIN Uncategorized queries ---");
 
             foreach (var q in uncategorized)
             {
-                progressSB.AppendLine(mergeComments ? string.Empty : $@"/*From file: {q.FromFile}*/");
-                progressSB.AppendLine(q.Query);
-                realSB.AppendLine(mergeComments ? string.Empty : $@"/*From file: {q.FromFile}*/");
-                realSB.AppendLine(q.Query);
+                sb.AppendLine(!mergeComments ? string.Empty : $@"/*From file: {q.FromFile}*/");
+                sb.AppendLine(q.Query);
             }
-            progressSB.AppendLine("--- END Uncategorized queries ---");
-            realSB.AppendLine("--- END Uncategorized queries ---");
+            sb.AppendLine("--- END Uncategorized queries ---");
         }
 
         // filter out comment Queries
@@ -43,16 +38,13 @@ internal static class Merger
 
         if (floatingComments.Any())
         {
-            progressSB.AppendLine("--- BEGIN Floating Comments ---");
-            realSB.AppendLine("--- BEGIN Floating Comments ---");
+            sb.AppendLine("--- BEGIN Floating Comments ---");
 
             foreach (var q in floatingComments)
             {
-                progressSB.AppendLine(q.Query);
-                realSB.AppendLine(q.Query);
+                sb.AppendLine(q.Query);
             }
-            progressSB.AppendLine("--- END Floating Comments ---");
-            realSB.AppendLine("--- END Floating Comments ---");
+            sb.AppendLine("--- END Floating Comments ---");
         }
 
         // filter out use queries.
@@ -61,13 +53,11 @@ internal static class Merger
 
         if (useQueries.Count() > 1)
         {
-            progressSB.AppendLine("Warning: more then one USE query, you have to place them correctly.");
-            realSB.AppendLine("Warning: more then one USE query, you have to place them correctly.");
+            sb.AppendLine("Warning: more then one USE query, you have to place them correctly.");
         }
         foreach (var q in useQueries)
         {
-            progressSB.AppendLine(q.Query);
-            realSB.AppendLine(q.Query);
+            sb.AppendLine(q.Query);
         }
 
         // filter out view queries.
@@ -76,55 +66,28 @@ internal static class Merger
 
         if (viewQueries.Any())
         {
-            progressSB.AppendLine("--- BEGIN Veiws  ---");
-            realSB.AppendLine("--- BEGIN Veiws (merging Views is not supported) ---");
+            sb.AppendLine("--- BEGIN Veiws  ---");
 
             foreach (var q in viewQueries.OrderBy(q => q.Table))
             {
-                progressSB.AppendLine(q.Query);
-                realSB.AppendLine(q.Query);
+                sb.AppendLine(q.Query);
             }
-            progressSB.AppendLine("--- END Veiws ---");
-            realSB.AppendLine("--- END Veiws ---");
+            sb.AppendLine("--- END Veiws ---");
         }
 
         var queriesByTable = categorized.GroupBy(q => q.Table);
         foreach (var queryGroup in queriesByTable)
         {
-            progressSB.AppendLine();
-            progressSB.AppendLine(mergeComments ? string.Empty : $@"/*Table: {queryGroup.Key}*/");
+            sb.AppendLine();
+            sb.AppendLine(!mergeComments ? string.Empty : $@"/*Table: {queryGroup.Key}*/");
             foreach (var q in queryGroup)
             {
-                progressSB.AppendLine(mergeComments ? string.Empty : $@"/*From file: {q.FromFile}*/");
-                progressSB.AppendLine(q.Query);
-            }
-
-            if (!onlySort) //TODO only sort
-            {
-                progressSB.AppendLine();
-                progressSB.AppendLine(mergeComments ? string.Empty : $@"/*Table: {queryGroup.Key}*/");
-
-                var merged = MergeQueriesOneTable(queryGroup);
-                if (merged == null)
-                {
-
-                    progressSB.AppendLine($@"/*Was deleted.*/");
-
-                    continue;
-                }
-
-                foreach (var q in merged)
-                {
-                    realSB.AppendLine(q.Query);
-                }
+                sb.AppendLine(!mergeComments ? string.Empty : $@"/*From file: {q.FromFile}*/");
+                sb.AppendLine(q.Query);
             }
         }
 
-        if (!onlySort) { }
-            //File.WriteAllText(Settings.Options.OutputFileName ?? "Merged.sql", realSB.ToString()); //TODO write it somewhere
-
-        //if (!Settings.Options.NoSortOutput && !Settings.Options.CustomSpOne)
-          return   progressSB.ToString();
+          return   sb.ToString();
     }
 
     static IEnumerable<TaggedQuery>? MergeQueriesOneTable(IEnumerable<TaggedQuery> queries)

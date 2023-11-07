@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace spOne.Desktop.Commons.Styling.XamlDictionaryMergeTool;
+namespace SqlScriptMerge.ConsoleApp;
 
 internal static class Settings
 {

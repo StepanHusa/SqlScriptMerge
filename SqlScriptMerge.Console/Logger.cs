@@ -6,11 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SqlScriptMerge.Console;
-internal class Logger : ILogger
+namespace SqlScriptMerge.ConsoleApp
 {
-    public void Log(string message)
+    internal class Logger : ILogger
     {
-        System.Console.WriteLine(message);
+        public bool EncounteredException { get; private set; }
+
+        public void Log(string message)
+        {
+            Console.WriteLine(message);
+        }
+
+        public void Log(string message, Exception exception)
+        {
+            EncounteredException = true;
+            Log(message);
+        }
     }
 }

@@ -76,7 +76,7 @@ internal static class Merger
         }
 
         var queriesByTable = categorized.GroupBy(q => q.Table);
-        foreach (var queryGroup in queriesByTable)
+        foreach (var queryGroup in queriesByTable.OrderBy(group=>group.MinBy(q=>q.Order))) // order so the creation of queries is not messed up
         {
             sb.AppendLine();
             sb.AppendLine(!mergeComments ? string.Empty : $@"/*Table: {queryGroup.Key}*/");

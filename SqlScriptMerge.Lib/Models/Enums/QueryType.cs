@@ -9,6 +9,7 @@ public enum QueryType
 
     CreateTable,
     AlterTable,
+    RenameTable,
     DropTable,
 
     InsertData,

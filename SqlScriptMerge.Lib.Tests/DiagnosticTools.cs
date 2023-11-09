@@ -14,4 +14,16 @@ internal static class DiagnosticTools
             Console.WriteLine($"File {fileName} not found.");
         }
     }
+
+    public static void OpenFileInCode(string fileName)
+    {
+        if (File.Exists(fileName))
+        {
+            Process.Start("C:\\Users\\husaS\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe", fileName);
+        }
+        else
+        {
+            Console.WriteLine($"File {fileName} not found.");
+        }
+    }
 }

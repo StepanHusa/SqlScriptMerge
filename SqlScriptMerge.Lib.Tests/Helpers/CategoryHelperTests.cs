@@ -9,6 +9,7 @@ public class CategoryHelperTests
     [InlineData("CreateTable\\01.test", QueryType.CreateTable, "Opravneni")]
     [InlineData("CreateTable\\02.test", QueryType.CreateTable, "globRole")]
     [InlineData("AlterTable\\01.test", QueryType.AlterTable, "Opravneni")]
+    [InlineData("RenameTable\\01.test", QueryType.RenameTable, "zadavatel")]
     public void CategorizeQueries_ValidQuery_CorrectlyIdentifies(string file, QueryType expectedQueryType, string expectedTableName)
     {
         string querystr = File.ReadAllText("testfiles\\" + file);

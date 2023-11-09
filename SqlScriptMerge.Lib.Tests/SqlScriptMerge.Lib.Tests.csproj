@@ -37,6 +37,9 @@
     <None Update="TestFiles\CreateTable\02.test">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestFiles\RenameTable\01.test">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestFiles\SortTest01\01.test">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

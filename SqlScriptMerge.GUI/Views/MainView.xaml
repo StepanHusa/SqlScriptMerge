@@ -5,6 +5,7 @@
     xmlns:local="clr-namespace:SqlScriptMerge.GUI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:SqlScriptMerge.GUI.ViewModels"
+    d:Background="AliceBlue"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -61,6 +62,7 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <TextBlock Text="You can change order by draging"/>
 
         </StackPanel>
 

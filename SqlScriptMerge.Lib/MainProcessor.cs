@@ -24,7 +24,7 @@ public class MainProcessor
     {
         var queries = FileHelper.ExtractQueriesFromFiles(files);
 
-        return Merger.SortQueriesByTableIntoOneFile(queries, _options.NoMergeComments, _options.NoAuthorComments);
+        return Merger.SortQueriesByTableIntoOneFile(queries, !_options.NoMergeComments, !_options.NoAuthorComments);
     }
 
     public string RunWithPreparedFilesMerge(IEnumerable<string> files)

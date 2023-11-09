@@ -35,6 +35,11 @@ internal static class CategoryHelper
             qt = QueryType.CreateTable;
             tableName = ExtractTableNameAfterWord(query, "TABLE");
         }
+        else if (ContainsSubstring(query, "RENAME TABLE"))
+        {
+            qt = QueryType.RenameTable;
+            tableName = ExtractTableNameAfterWord(query, "TABLE");
+        }
         else if (ContainsSubstring(query, "ALTER TABLE"))
         {
             qt = QueryType.AlterTable;
